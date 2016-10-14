@@ -3,12 +3,15 @@
  */
 package com.manu.student.main;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.manu.student.model.Student;
+import com.manu.student.service.StudentService;
 
 /**
  * @author mohankumara.kb
@@ -16,22 +19,15 @@ import org.springframework.web.bind.annotation.RestController;
  *
  */
 @RestController
-@RequestMapping("/main")
+@ComponentScan("com.manu.*")
 public class Controller {
 	
-	@RequestMapping(value="", method= RequestMethod.GET, produces="application/json")
-	public List<String> test() {
-		List<String> m = new ArrayList<String>();
-		m.add("Welcome");
-		return m;
+	@Autowired
+	private StudentService studentService;
+	
+	@RequestMapping(value="/{id}", method= RequestMethod.GET, produces="application/json")
+	public Student getStudentDetailsById(@PathVariable String id) {
+		return studentService.getStudentDetailsById(id);
 	}
 	
-	@RequestMapping(value="/dummy", method= RequestMethod.GET, produces="application/json")
-	public List<String> test1() {
-		List<String> m = new ArrayList<String>();
-		m.add("Welcome to ACcenture");
-		m.add("by Mohan");
-		return m;
-	}
-
 }
